@@ -1,0 +1,16 @@
+# Require explicit approval before Codex can push to a remote.
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "prompt",
+    justification = "Require explicit user approval before publishing local commits to a remote.",
+    match = [
+        "git push",
+        "git push origin main",
+        "git push --force-with-lease origin main",
+    ],
+    not_match = [
+        "git pull origin main",
+        "git status",
+        "git remote -v",
+    ],
+)
