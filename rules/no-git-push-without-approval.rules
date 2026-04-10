@@ -14,3 +14,18 @@ prefix_rule(
         "git remote -v",
     ],
 )
+
+# GitHub CLI can publish local commits via `gh repo create --push`.
+prefix_rule(
+    pattern = ["gh", "repo", "create"],
+    decision = "prompt",
+    justification = "Require explicit user approval before using GitHub CLI repo creation flows that can push local commits.",
+    match = [
+        "gh repo create davidfurlong/rule-no-push --public --source=. --remote=origin --push",
+        "gh repo create my-org/my-repo --private --source=. --push",
+    ],
+    not_match = [
+        "gh repo view davidfurlong/rule-no-push",
+        "gh repo list",
+    ],
+)

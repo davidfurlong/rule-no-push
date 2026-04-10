@@ -1,10 +1,15 @@
 # Codex Rule: No Git Push Without Approval
 
-This repo contains a Codex rule that forces an approval prompt before the agent can run `git push`.
+This repo contains a Codex rule that forces an approval prompt before the agent can publish local commits with either `git push` or `gh repo create ... --push`.
 
 ## What it does
 
-The rule matches the `git push` command prefix and sets the decision to `prompt`, so Codex must ask before publishing commits to a remote.
+The rule prompts on:
+
+1. `git push`
+2. `gh repo create`, which is the GitHub CLI path that can publish local commits when used with `--push`
+
+Codex rules match command prefixes, so the extra `gh repo create` rule closes the GitHub CLI gap without prompting on unrelated `git` commands.
 
 ## Repository contents
 
@@ -28,7 +33,7 @@ To install it in a project:
 
 1. Copy `rules/no-git-push-without-approval.rules` into your project's `.codex/rules/` directory.
 2. Restart Codex so it reloads rules.
-3. Ask Codex to run a `git push` command and confirm that it prompts for approval.
+3. Ask Codex to run either `git push` or `gh repo create ... --push` and confirm that it prompts for approval.
 
 ## Optional global setup
 
